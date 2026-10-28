@@ -1,0 +1,23 @@
+import numpy as np
+
+def f(t, y):
+    return 4*np.exp(0.8*t) - 0.5*y
+
+def euler(f, t0, y0, h, tn):
+    t = np.arange(t0, tn + h/2, h)
+    y = np.zeros(len(t)); y[0] = y0
+    for i in range(len(t) - 1):
+        y[i+1] = y[i] + f(t[i], y[i]) * h
+    return t, y
+
+def heun(f, t0, y0, h, tn):
+    t = np.arange(t0, tn + h/2, h)
+    y = np.zeros(len(t)); y[0] = y0
+    for i in range(len(t) - 1):
+        k1 = f(t[i], y[i])
+        k2 = f(t[i] + h, y[i] + k1*h)
+        y[i+1] = y[i] + (k1 + k2)/2 * h
+    return t, y
+
+t, y = euler(f, 0, 2, 1, 4)
+print(y)   # [2. 5. 11.40 25.51 56.85]
